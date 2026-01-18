@@ -1,0 +1,9 @@
+<suite name="Playwright Java Test">
+	<test name="Playwright Java Tests">
+		<classes>
+			<class name="com.tests.PlaywrightJavaTest" />
+			<class name="com.tests.LoginTest" />
+			<class name="com.tests.LoginTest2" />
+		</classes>
+	</test>
+</suite>
