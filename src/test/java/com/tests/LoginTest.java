@@ -12,7 +12,7 @@ public class LoginTest extends BaseTest {
 	public void loginTest() {
 
 		LoginPage loginPage = new LoginPage(page);
-//		HomePage homePage = new HomePage(page);
+		HomePage homePage = new HomePage(page);
 
 		test.info("Navigating to the Website");
 		page.navigate("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
