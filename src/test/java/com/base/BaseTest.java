@@ -26,7 +26,7 @@ public class BaseTest {
 	@BeforeMethod
 	public void setUp(Method method) throws Exception {
 
-		// Reporting
+		// Reporting before starting the method execution
 		extent = ExtentManager.getInstance();
 		test = extent.createTest(method.getName());
 

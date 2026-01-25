@@ -47,4 +47,30 @@ public class LoginTest2 extends BaseTest {
 
 	}
 
+	public void loginTest4() {
+
+		// ID locator
+		page.locator("id=\"oxd-toaster_1\"").click();
+
+		// class locator
+		page.locator(".oxd-button oxd-button--medium").click();
+
+		// text locator
+		page.locator("text=Login").click();
+
+		// css locator
+		// tag and attribute
+		page.locator("input[placeholder='Username']").fill("Admin");
+
+		// tag and class
+		page.locator("button.oxd-button").click();
+
+		// tag and class and attribute
+		page.locator("button.oxd-button[type='submit']").click();
+
+		// xpath locator
+		page.locator("//input[@name='username']").fill("Admin");
+
+	}
+
 }

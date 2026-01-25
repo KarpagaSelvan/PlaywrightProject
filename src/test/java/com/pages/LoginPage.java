@@ -8,8 +8,9 @@ public class LoginPage {
 	private final String userNameTextBox = "input[name='username']";
 	private final String passwordTextBox = "input[name='password']";
 	private final String buttonLogin = "button[type='submit']";
+	
 
-	// Cnstructor
+	// Constructor
 	public LoginPage(Page page) {
 		this.page = page;
 	}
