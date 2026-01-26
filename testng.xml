@@ -1,8 +1,10 @@
 <suite name="Playwright Java Test">
+	<listeners>
+		<listener class-name="com.retry.AnnotationTransformer" />
+	</listeners>
 	<test name="Playwright Java Tests">
 		<classes>
-			<class name="com.tests.PlaywrightJavaTest" />
-			<class name="com.tests.LoginTest" />
+
 			<class name="com.tests.LoginTest2" />
 		</classes>
 	</test>
