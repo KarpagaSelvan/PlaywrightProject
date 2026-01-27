@@ -2,10 +2,15 @@
 	<listeners>
 		<listener class-name="com.retry.AnnotationTransformer" />
 	</listeners>
+	<test name="Auth Setup">
+		<classes>
+			<class name="com.setup.AuthSetup" />
+		</classes>
+	</test>
 	<test name="Playwright Java Tests">
 		<classes>
+			<class name="com.tests.HomeTest" />
 
-			<class name="com.tests.LoginTest2" />
 		</classes>
 	</test>
 </suite>
