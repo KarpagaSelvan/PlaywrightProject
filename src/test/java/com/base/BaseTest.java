@@ -1,14 +1,18 @@
 package com.base;
 
 import java.lang.reflect.Method;
+import java.nio.file.Paths;
 
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.microsoft.playwright.Browser;
+import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
@@ -22,18 +26,34 @@ public class BaseTest {
 	protected Page page;
 	protected ExtentReports extent;
 	protected ExtentTest test;
+	protected BrowserContext context;
+
+	@BeforeSuite
+	public void setupSuite() {
+		extent = ExtentManager.getInstance();
+	}
 
 	@BeforeMethod
 	public void setUp(Method method) throws Exception {
 
 		// Reporting before starting the method execution
-		extent = ExtentManager.getInstance();
 		test = extent.createTest(method.getName());
+
+		boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "false"));
 
 		// Playwright Setup
 		playwright = Playwright.create();
-		browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(false).setSlowMo(1000));
-		page = browser.newPage();
+		browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless).setSlowMo(1000));
+//		page = browser.newPage();
+//
+//		// Loging the setup steps
+//
+//		page.navigate("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+//		test.info("Navigated to the URL");
+
+		context = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(Paths.get("auth.json")));
+
+		page = context.newPage();
 
 	}
 
@@ -65,7 +85,7 @@ public class BaseTest {
 		} else {
 			test.skip("Test Skipped");
 		}
-		extent.flush();
+//		extent.flush();
 
 		// Browser & Playwright cleaning
 		if (browser != null)
@@ -73,6 +93,11 @@ public class BaseTest {
 		if (playwright != null)
 			playwright.close();
 
+	}
+
+	@AfterSuite
+	public void teardownSuite() {
+		extent.flush();
 	}
 
 }
