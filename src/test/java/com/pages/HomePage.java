@@ -1,5 +1,8 @@
 package com.pages;
 
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 import com.microsoft.playwright.Page;
 
 public class HomePage {
@@ -25,33 +28,33 @@ public class HomePage {
 		page.click(backBag);
 	}
 
-	public void sortingPriceLowToHigh() {
+	// Sorting without @DataProvider
+
+	public void sortingPriceLowToHigh(String sortingOption) {
 		// Handling drop down - Type 1
-		page.selectOption(btnSorting, "lohi");
+		page.selectOption(btnSorting, sortingOption);
 	}
 
-	public void sortingPriceHighToLow() {
-		// Handling drop down - Type 1
-		page.selectOption(btnSorting, "hilo");
-	}
-
-	public void sortingNameZtoA() {
-		// Handling drop down - Type 2
-		page.locator(dropDownSorting).selectOption("za");
-
-	}
-
-	public void sortingNameAtoZ() {
-		// Handling drop down - Type 2
-		page.locator(dropDownSorting).selectOption("az");
-
-	}
+//	public void sortingPriceHighToLow() {
+//		// Handling drop down - Type 1
+//		page.selectOption(btnSorting, "hilo");
+//	}
+//
+//	public void sortingNameZtoA() {
+//		// Handling drop down - Type 2
+//		page.locator(dropDownSorting).selectOption("za");
+//
+//	}
+//
+//	public void sortingNameAtoZ() {
+//		// Handling drop down - Type 2
+//		page.locator(dropDownSorting).selectOption("az");
+//
+//	}
 
 	public String gettingDropDownText() {
 		return page.locator(btnDropDown).textContent();
 
 	}
-
-//	
 
 }
