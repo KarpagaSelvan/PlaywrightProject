@@ -1,9 +1,11 @@
 package com.tests;
 
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.base.BaseTest;
+import com.dataprovider.DataSupplier;
 import com.pages.HomePage;
 import com.pages.ProductPage;
 
@@ -38,60 +40,60 @@ public class HomeTest extends BaseTest {
 
 	}
 
-	@Test(priority = 3)
-	public void sortingLowToHigh() {
+	@Test(priority = 3, dataProvider = "sortingOptionsDataFromExcel", dataProviderClass = DataSupplier.class)
+	public void sortingOptions(String sortingOption, String expectedActiveOption) {
 
 		page.navigate(BASE_URL);
 		page.waitForLoadState();
 		HomePage homePage = new HomePage(page);
-		homePage.sortingPriceLowToHigh();
+		homePage.sortingPriceLowToHigh(sortingOption);
 		System.out.println(homePage.gettingDropDownText());
 
-		Assert.assertEquals(homePage.gettingDropDownText(), "Price (low to high)",
+		Assert.assertEquals(homePage.gettingDropDownText(), expectedActiveOption,
 				"Verifying the sorting low to high option selected");
 
 	}
 
-	@Test(priority = 4)
-	public void sortingHighToLow() {
-
-		page.navigate(BASE_URL);
-		page.waitForLoadState();
-		HomePage homePage = new HomePage(page);
-		homePage.sortingPriceHighToLow();
-		System.out.println(homePage.gettingDropDownText());
-
-		Assert.assertEquals(homePage.gettingDropDownText(), "Price (high to low)",
-				"Verifying the sorting high to low option selected");
-
-	}
-
-	@Test(priority = 5)
-	public void sortingNameZtoATest() {
-
-		page.navigate(BASE_URL);
-		page.waitForLoadState();
-		HomePage homePage = new HomePage(page);
-		homePage.sortingNameZtoA();
-		System.out.println(homePage.gettingDropDownText());
-
-		Assert.assertEquals(homePage.gettingDropDownText(), "Name (Z to A)",
-				"Verifying the sorting Z to A option selected");
-
-	}
-
-	@Test(priority = 6)
-	public void sortingNameAtoZTest() {
-
-		page.navigate(BASE_URL);
-		page.waitForLoadState();
-		HomePage homePage = new HomePage(page);
-		homePage.sortingNameAtoZ();
-		System.out.println(homePage.gettingDropDownText());
-
-		Assert.assertEquals(homePage.gettingDropDownText(), "Name (A to Z)",
-				"Verifying the sorting A to Z option selected");
-
-	}
+//	@Test(priority = 4)
+//	public void sortingHighToLow() {
+//
+//		page.navigate(BASE_URL);
+//		page.waitForLoadState();
+//		HomePage homePage = new HomePage(page);
+//		homePage.sortingPriceHighToLow();
+//		System.out.println(homePage.gettingDropDownText());
+//
+//		Assert.assertEquals(homePage.gettingDropDownText(), "Price (high to low)",
+//				"Verifying the sorting high to low option selected");
+//
+//	}
+//
+//	@Test(priority = 5)
+//	public void sortingNameZtoATest() {
+//
+//		page.navigate(BASE_URL);
+//		page.waitForLoadState();
+//		HomePage homePage = new HomePage(page);
+//		homePage.sortingNameZtoA();
+//		System.out.println(homePage.gettingDropDownText());
+//
+//		Assert.assertEquals(homePage.gettingDropDownText(), "Name (Z to A)",
+//				"Verifying the sorting Z to A option selected");
+//
+//	}
+//
+//	@Test(priority = 6)
+//	public void sortingNameAtoZTest() {
+//
+//		page.navigate(BASE_URL);
+//		page.waitForLoadState();
+//		HomePage homePage = new HomePage(page);
+//		homePage.sortingNameAtoZ();
+//		System.out.println(homePage.gettingDropDownText());
+//
+//		Assert.assertEquals(homePage.gettingDropDownText(), "Name (A to Z)",
+//				"Verifying the sorting A to Z option selected");
+//
+//	}
 
 }
