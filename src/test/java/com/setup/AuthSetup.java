@@ -1,30 +1,46 @@
 package com.setup;
 
 import java.nio.file.Paths;
+import java.util.Arrays;
 
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import com.microsoft.playwright.Browser;
 import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
-import com.microsoft.playwright.BrowserType.LaunchOptions;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 
 public class AuthSetup {
 
+	Browser browser;
+
 	@Test
-	public void generateAuthState() {
+	@Parameters({ "browser" })
+	public void generateAuthState(String browserType) {
 
 		// Launch browser and perform login to generate auth state
 		Playwright playwright = Playwright.create();
 		boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
 
-		Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
+		switch (browserType.toLowerCase()) {
+		case "chrome":
+			browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
+			break;
+		case "firefox":
+			browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
+			break;
+
+		default:
+			throw new IllegalArgumentException("Incorrect browser: " + browserType);
+
+		}
+
 //		((LaunchOptions) browser).setSlowMo(1000);
 
 		// Create a new browser context for the login session
-		BrowserContext browserContext = browser.newContext();
+		BrowserContext browserContext = browser.newContext(new Browser.NewContextOptions());
 		Page page = browserContext.newPage();
 
 		// Navigate to the login page

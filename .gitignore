@@ -95,6 +95,7 @@ replay_pid*
 
 ### Maven ###
 target/
+auth.json
 test-output/
 pom.xml.tag
 pom.xml.releaseBackup
