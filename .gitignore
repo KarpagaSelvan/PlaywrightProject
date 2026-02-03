@@ -95,7 +95,13 @@ replay_pid*
 
 ### Maven ###
 target/
-auth.json
+auth/*.json
+config-dev.properties
+config-qa.properties
+config-stage.properties
+config-prod.properties
+downloadedFiles/
+UploadingFiles/
 test-output/
 pom.xml.tag
 pom.xml.releaseBackup
