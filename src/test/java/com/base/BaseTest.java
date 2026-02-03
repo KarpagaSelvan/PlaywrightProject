@@ -1,13 +1,14 @@
 package com.base;
 
 import java.lang.reflect.Method;
-import java.nio.file.Paths;
 
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
@@ -16,6 +17,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.utils.Config;
 import com.utils.ExtentManager;
 import com.utils.ScreenshotUtil;
 
@@ -28,9 +30,22 @@ public class BaseTest {
 	protected ExtentTest test;
 	protected BrowserContext context;
 
+	@Parameters({ "env" })
 	@BeforeSuite
-	public void setupSuite() {
+	public void setupSuite(@Optional("qa") String xmlEnv) {
 		extent = ExtentManager.getInstance();
+		String finalXml = System.getProperty("env");
+
+		if (finalXml == null || finalXml.isEmpty()) {
+			System.setProperty("env", xmlEnv);
+		}
+
+		if ("prod".equals(System.getProperty("env")) && System.getProperty("allowProd") == null) {
+			System.out.println("PROD execution blocked. Use -DallowProd=true");
+			throw new RuntimeException("PROD execution blocked. Use -DallowProd=true");
+		}
+
+		System.out.println("Running tests on ENV (from Base Test class) = " + System.getProperty("env"));
 	}
 
 	@BeforeMethod
@@ -51,7 +66,7 @@ public class BaseTest {
 //		page.navigate("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
 //		test.info("Navigated to the URL");
 
-		context = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(Paths.get("auth.json")));
+		context = browser.newContext(new Browser.NewContextOptions().setStorageStatePath(Config.authStatePath()));
 
 		page = context.newPage();
 
