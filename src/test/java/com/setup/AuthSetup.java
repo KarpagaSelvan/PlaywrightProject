@@ -51,7 +51,7 @@ public class AuthSetup {
 		// Navigate to the login page
 		page.navigate(Config.baseURL());
 
-		page.fill("input[id='user-name']", Config.userName());
+		page.fill("input[id='user-name']", Config.username());
 		page.fill("input[name='password']", Config.password());
 		page.click("input[type='submit']");
 

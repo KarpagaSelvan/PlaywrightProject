@@ -1,5 +1,5 @@
 base.url=https://www.saucedemo.com/prod
-usernname=test_user
+username=test_user
 password=test_password
 headless=false
 timeout=3000
