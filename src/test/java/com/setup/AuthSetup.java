@@ -1,5 +1,8 @@
 package com.setup;
 
+import java.io.IOException;
+import java.net.URI;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
@@ -11,6 +14,7 @@ import com.microsoft.playwright.BrowserContext;
 import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
+import com.utils.Config;
 
 public class AuthSetup {
 
@@ -18,18 +22,19 @@ public class AuthSetup {
 
 	@Test
 	@Parameters({ "browser" })
-	public void generateAuthState(String browserType) {
+	public void generateAuthState(String browserType) throws IOException {
 
 		// Launch browser and perform login to generate auth state
 		Playwright playwright = Playwright.create();
-		boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
+//		boolean isHeadless = Boolean.parseBoolean(System.getProperty("headless", "true"));
 
 		switch (browserType.toLowerCase()) {
 		case "chrome":
-			browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
+			browser = playwright.chromium()
+					.launch(new BrowserType.LaunchOptions().setHeadless(Config.headlessStatus()));
 			break;
 		case "firefox":
-			browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(isHeadless));
+			browser = playwright.firefox().launch(new BrowserType.LaunchOptions().setHeadless(Config.headlessStatus()));
 			break;
 
 		default:
@@ -44,10 +49,10 @@ public class AuthSetup {
 		Page page = browserContext.newPage();
 
 		// Navigate to the login page
-		page.navigate("https://www.saucedemo.com/");
+		page.navigate(Config.baseURL());
 
-		page.fill("input[id='user-name']", "standard_user");
-		page.fill("input[name='password']", "secret_sauce");
+		page.fill("input[id='user-name']", Config.userName());
+		page.fill("input[name='password']", Config.password());
 		page.click("input[type='submit']");
 
 		// Wait for navigation to complete after login
@@ -55,7 +60,9 @@ public class AuthSetup {
 
 		// Save the authentication state to a file auth.json in the project root
 		// directory
-		browserContext.storageState(new BrowserContext.StorageStateOptions().setPath(Paths.get("auth.json")));
+		String env = System.getProperty("env", "qa");
+		Path authFilePath = Paths.get("auth/auth-" + env + ".json");
+		browserContext.storageState(new BrowserContext.StorageStateOptions().setPath(authFilePath));
 
 		// Close browser
 //		browser.close();

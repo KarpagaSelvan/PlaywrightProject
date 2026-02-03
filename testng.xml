@@ -1,4 +1,5 @@
 <suite name="Playwright Java Test">
+<parameter name="env" value="qa"/>
 	<listeners>
 		<listener class-name="com.retry.AnnotationTransformer" />
 	</listeners>
@@ -12,11 +13,6 @@
 		<parameter name="browser" value="chrome" />
 		<classes>
 			<class name="com.tests.HomeTest" />
-			<methods>
-				<include name="gettingTitleTest" />
-				<include name="clickingBackBagTest" />
-				<include name="sortingOptions" />
-			</methods>
 		</classes>
 	</test>
 </suite>
