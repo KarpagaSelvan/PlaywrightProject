@@ -27,12 +27,36 @@ public class Config {
 		return ConfigLoader.getConfig().getProperty("base.url");
 	}
 
-	public static String userName() throws IOException {
-		return ConfigLoader.getConfig().getProperty("usernname");
+	// SINGLE SOURCE OF TRUTH
+	public static String username() throws IOException {
+		//For CI execution - env variables secrets
+//		String ciUser = System.getenv("USERNAME");
+//		if (ciUser != null && !ciUser.isEmpty()) {
+//			return ciUser;
+//		}
+
+		String localUser = ConfigLoader.getConfig().getProperty("username");
+
+		if (localUser == null || localUser.isEmpty()) {
+			throw new RuntimeException("Username missing for env: " + ENV);
+		}
+		return localUser;
 	}
 
 	public static String password() throws IOException {
-		return ConfigLoader.getConfig().getProperty("password");
+		//For CI execution - env variables secrets
+//		String ciPassword = System.getenv("PASSWORD");
+//		if (ciPassword != null && !ciPassword.isEmpty()) {
+//			return ciPassword;
+//		}
+
+		String localPassword = ConfigLoader.getConfig().getProperty("password");
+
+		if (localPassword == null || localPassword.isEmpty()) {
+			throw new RuntimeException("Password missing for env: " + ENV);
+		}
+		return localPassword;
+
 	}
 
 	public static boolean headlessStatus() throws IOException {
